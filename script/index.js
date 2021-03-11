@@ -119,6 +119,6 @@ function saveEventHandler(inputs) {
     drawTheTable();
 }
 
-/*--------------------------
-~~~~~~SearchBar Section~~~~~~~ 
---------------------------*/
+/*----------------------------
+~~~~~~Searchbox Section~~~~~~~ 
+----------------------------*/
