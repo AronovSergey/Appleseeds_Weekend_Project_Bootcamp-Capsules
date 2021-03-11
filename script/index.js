@@ -6,30 +6,53 @@ drawTheTable();
 ~~~~~~~Create Section~~~~~~~ 
 --------------------------*/
 async function drawTheTable() {
-    await capsule.create();
+    if(capsule.getStudents().length === 0)
+        await capsule.create();
 
     const students = capsule.getStudents();
 
     tableBody.innerHTML = '';
     
     for(let i = 0; i < students.length; i++){
-        tableBody.innerHTML += `<tr>
-            <td class="column1">${students[i].id}<td>
-            <td class="column2">${students[i].firstName}<td>
-            <td class="column3">${students[i].lastName}<td>
-            <td class="column4">${students[i].capsule}<td>
-            <td class="column5">${students[i].age}<td>
-            <td class="column6">${students[i].city}<td>
-            <td class="column7">${students[i].gender}<td>
-            <td class="column8">${students[i].hobby}<td>
-            <td class="column9">
-                <span class="edit-button"><i class="fas fa-edit"></i></span>
-                <span class="delete-button"><i class="fas fa-trash"></i></span>
-            <td>
-        </tr>`;
+        if(students[i].getAtEditMode())
+            tableBody.innerHTML += `<tr id="${students[i].getId()}">${studentToTableEditableRowString(students[i])}</tr>`;
+        else
+            tableBody.innerHTML += `<tr id="${students[i].getId()}">${studentToTableRowString(students[i])}</tr>`;
     }
 
     addEventListenerToAllButtons();
+}
+
+function studentToTableRowString(student) {
+    return `
+        <td class="id-column">${student.getId()}</td>
+        <td class="first-name-column">${student.getFirstName()}</td>
+        <td class="last-name-column">${student.getLastName()}</td>
+        <td class="capsule-column">${student.getCapsule()}</td>
+        <td class="age-column">${student.getAge()}</td>
+        <td class="city-column">${student.getCity()}</td>
+        <td class="gender-column">${student.getGender()}</td>
+        <td class="hobby-column">${student.getHobby()}</td>
+        <td class="button-column">
+            <span class="edit-button"><i class="fas fa-edit"></i></span>
+            <span class="delete-button"><i class="fas fa-trash"></i></span>
+        </td>`;
+}
+
+function studentToTableEditableRowString(student) {
+    return `
+        <td class="id-column">${student.getId()}</td>
+        <td class="first-name-column"><input value="${student.getFirstName()}"></td>
+        <td class="last-name-column"><input value="${student.getLastName()}"></td>
+        <td class="capsule-column"><input value="${student.getCapsule()}"></td>
+        <td class="age-column"><input value="${student.getAge()}"></td>
+        <td class="city-column"><input value="${student.getCity()}"></td>
+        <td class="gender-column"><input value="${student.getGender()}"></td>
+        <td class="hobby-column"><input value="${student.getHobby()}"></td>
+        <td class="button-column">
+            <span class="save-button"><i class="fas fa-check"></i></span>
+            <span class="close-button"><i class="fas fa-times"></i></span>
+        </td>`;
 }
 
 /*-----------------------------------
@@ -38,24 +61,64 @@ async function drawTheTable() {
 function addEventListenerToAllButtons () {
     const editButtonsList = document.querySelectorAll('.edit-button');
     const deleteButtonsList = document.querySelectorAll('.delete-button');
-    const firstColumnList = document.querySelectorAll('.column1');
+    const closeButtonsList = document.querySelectorAll('.close-button');
+    const saveButtonsList = document.querySelectorAll('.save-button');
+    
 
-    editButtonsList.forEach((button, index) => {    
-        const id = firstColumnList[index + 1].textContent;
+    editButtonsList.forEach(button => {    
+        const id = button.parentElement.parentElement.getAttribute('id');
         button.addEventListener('click', (function(id){
-            return function(){ editEventHandler(id) }
+            return function(){ openAndCloseEditModeEventHandler(id) }
         })(id));
     });
 
-    deleteButtonsList.forEach((button, index) => {    
-        const id = firstColumnList[index + 1].textContent;
+    closeButtonsList.forEach(button => {    
+        const id = button.parentElement.parentElement.getAttribute('id');
+        button.addEventListener('click', (function(id){
+            return function(){ openAndCloseEditModeEventHandler(id) }
+        })(id));
+    });
+
+    deleteButtonsList.forEach(button => {    
+        const id = button.parentElement.parentElement.getAttribute('id');
         button.addEventListener('click', (function(id){
             return function(){ deleteEventHandler(id) }
         })(id));
     });
+
+    saveButtonsList.forEach(button => {    
+        const tableRow = button.parentElement.parentElement;
+        button.addEventListener('click', (function(inputs){
+            return function(){ saveEventHandler(inputs) }
+        })(tableRow.children));
+    });
 }
-function editEventHandler (id) {
-    console.log(`edit ${id}`);
-}function deleteEventHandler (id) {
-    console.log(`delete ${id}`);
+
+function openAndCloseEditModeEventHandler(id) {
+    const student = capsule.getStudent(id);
+    student.switchEditMode();
+    drawTheTable();
 }
+
+function deleteEventHandler(id) {
+    capsule.delete(id);
+    drawTheTable();
+}
+
+function saveEventHandler(inputs) {
+    capsule.update({
+        id: inputs[0].textContent,
+        firstName: inputs[1].firstElementChild.value,
+        lastName: inputs[2].firstElementChild.value,
+        capsule: inputs[3].firstElementChild.value,
+        age: inputs[4].firstElementChild.value,
+        city: inputs[5].firstElementChild.value,
+        gender: inputs[6].firstElementChild.value,
+        hobby: inputs[7].firstElementChild.value,
+    });
+    drawTheTable();
+}
+
+/*--------------------------
+~~~~~~SearchBar Section~~~~~~~ 
+--------------------------*/
