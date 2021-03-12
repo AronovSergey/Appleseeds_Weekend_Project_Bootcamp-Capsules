@@ -30,6 +30,16 @@ class Student {
     setCity(_city) { this.city = _city; }
     setGender(_gender) { this.gender = _gender; }
     setHobby(_hobby) { this.hobby = _hobby; }
+    async setWeather(_city) { 
+        try {
+            const response = await fetch(`http://api.openweathermap.org/data/2.5/weather?q=${_city},israel&APPID=bc409db8acb7809321a860fe233a82e4`);
+            const data = await response.json();
+            this.weather = (parseInt(data.main.temp) - 273.15).toFixed(2);
+        }
+        catch(err){
+            this.weather = 'not found';
+        }
+    }
 
     switchEditMode() { this.atEditMode = !this.atEditMode; }
 }

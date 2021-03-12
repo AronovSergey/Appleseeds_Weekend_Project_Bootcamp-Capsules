@@ -120,7 +120,10 @@ function deleteEventHandler(id) {
     drawTheTable();
 }
 
-function saveEventHandler(inputs) {
+async function saveEventHandler(inputs) {
+    const student = capsule.getStudent(inputs[0].textContent);
+    if(student.getCity !== inputs[5].firstElementChild.value)
+        await student.setWeather(inputs[5].firstElementChild.value);
     capsule.update({
         id: inputs[0].textContent,
         firstName: inputs[1].firstElementChild.value,
@@ -180,3 +183,4 @@ function arrowEventHandler() {
     capsule.sort(selectedArrowType, selectedArrowColumn);
     drawTheTable();
 };
+
