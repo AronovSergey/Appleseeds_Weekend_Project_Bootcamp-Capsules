@@ -10,8 +10,14 @@ class Capsule {
 
         for(let i = 0; i < jsonOuter.length; i++){
             const dataInner = await fetch(`https://appleseed-wa.herokuapp.com/api/users/${jsonOuter[i].id}`);
-
             const jsonInner = await dataInner.json();
+
+            const proxy = 'https://api.codetabs.com/v1/proxy/?quest';
+            const baseEndpoint = 'http://api.openweathermap.org/data/2.5/weather?q=${jsonInner.city}&appid=bc409db8acb7809321a860fe233a82e4';
+            
+            const weatherData = await fetch(`${proxy}=${baseEndpoint}`);
+
+            console.log(weatherData);
 
             const newStudent = new Student(jsonOuter[i].id, jsonOuter[i].firstName, jsonOuter[i].lastName, jsonOuter[i].capsule, jsonInner.age, jsonInner.city, jsonInner.gender, jsonInner.hobby);
             this.students.push(newStudent);
@@ -51,6 +57,13 @@ class Capsule {
         this.students[index].setGender(object.gender);
         this.students[index].setHobby(object.hobby);
         this.students[index].switchEditMode();
+    }
+
+    search(searchText, attribute){
+        return this.students.filter(student => student[attribute]
+                                                .toString()
+                                                .toLowerCase()
+                                                .includes(searchText.toLowerCase()));
     }
 }
 

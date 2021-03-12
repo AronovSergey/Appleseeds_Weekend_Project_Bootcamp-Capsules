@@ -125,6 +125,7 @@ Searchbox Section
 ~~~~~~~~~~~~~~~*/
 .searchbox {
     position: absolute;
+    width: fit-content;
     top: 8%;
     left: calc(50% - 20px);
     transform: translate(-50%, -50%);
@@ -135,8 +136,15 @@ Searchbox Section
 }
 
 .searchbox:hover > .searchbox__input {
-    width: 550px;
+    width: 450px;
     padding: 0 6px;
+}
+
+.searchbox:hover > .searchbox__select {
+    width: fit-content;
+    padding: 0 6px;
+    margin-right: 10px;
+    border: #f8f6ff 1px solid;
 }
 
 .searchbox:hover {
@@ -155,6 +163,22 @@ Searchbox Section
     transition: 0.6s;
     color: white;
     cursor: pointer;
+}
+
+
+.searchbox .searchbox__select {
+    float: left;
+    height: 40px;
+    width: 0;
+    background: #6c7ae0;
+    color: white;
+    font-size: 16px;
+    transition: 0.4s;
+    border: none;
+    border-color: #f8f6ff;
+    border-radius: 4px;
+    background: none;
+    outline: none;
 }
 
 .searchbox__btn > i {

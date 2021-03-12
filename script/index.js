@@ -5,12 +5,18 @@ drawTheTable();
 /*--------------------------
 ~~~~~~~Create Section~~~~~~~ 
 --------------------------*/
-async function drawTheTable() {
+async function drawTheTable(data = null) {
     if(capsule.getStudents().length === 0)
         await capsule.create();
 
-    const students = capsule.getStudents();
-
+    let students;
+    if(data){
+        students = data;
+    }
+    else {
+        students = capsule.getStudents();
+    }
+    
     tableBody.innerHTML = '';
     
     for(let i = 0; i < students.length; i++){
@@ -122,3 +128,13 @@ function saveEventHandler(inputs) {
 /*----------------------------
 ~~~~~~Searchbox Section~~~~~~~ 
 ----------------------------*/
+const searchBarInput = document.querySelector('.searchbox__input');
+const searchBarSelect = document.querySelector('.searchbox__select');
+
+searchBarInput.addEventListener('keyup', () => {
+    drawTheTable(capsule.search(searchBarInput.value, searchBarSelect.value));
+});
+
+searchBarSelect.addEventListener('change', () => {
+    searchBarInput.value = '';
+});
