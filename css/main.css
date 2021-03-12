@@ -69,6 +69,19 @@ th, td {
 .city-column {
     width: 12%
 }
+.city-column__weather {
+    background-color: black;
+    color: white;
+    padding: 20px 80px 20px 0;
+    display: none;
+    border-radius: 8px;
+}
+.city-column__city:hover {
+    display: none;
+}
+.city-column__city:hover + .city-column__weather {
+    display: inline;
+}
 .gender-column {
     width: 8%
 }
@@ -197,4 +210,22 @@ Searchbox Section
     background: none;
     outline: none;
     transition: 0.4s;
+}
+
+
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Arrow UP and And Arrow Down Section
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+.arrow-up,
+.arrow-down {
+    cursor: pointer;
+    color: #bbb;
+}
+
+.arrow-up {
+    margin-left: 4px;
+}
+
+.arrow-selected {
+    color: #fff;
 }

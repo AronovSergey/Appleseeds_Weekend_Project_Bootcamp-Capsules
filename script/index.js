@@ -36,7 +36,16 @@ function studentToTableRowString(student) {
         <td class="last-name-column">${student.getLastName()}</td>
         <td class="capsule-column">${student.getCapsule()}</td>
         <td class="age-column">${student.getAge()}</td>
-        <td class="city-column">${student.getCity()}</td>
+        <td class="city-column">
+            <span>
+                <span class="city-column__city">
+                    ${student.getCity()}
+                </span>
+                <span class="city-column__weather">
+                    ${student.getWeather()}
+                </span>
+            </span>
+        </td>
         <td class="gender-column">${student.getGender()}</td>
         <td class="hobby-column">${student.getHobby()}</td>
         <td class="button-column">
@@ -70,7 +79,7 @@ function addEventListenerToAllButtons () {
     const closeButtonsList = document.querySelectorAll('.close-button');
     const saveButtonsList = document.querySelectorAll('.save-button');
     
-
+    
     editButtonsList.forEach(button => {    
         const id = button.parentElement.parentElement.getAttribute('id');
         button.addEventListener('click', (function(id){
@@ -125,6 +134,7 @@ function saveEventHandler(inputs) {
     drawTheTable();
 }
 
+
 /*----------------------------
 ~~~~~~Searchbox Section~~~~~~~ 
 ----------------------------*/
@@ -138,3 +148,35 @@ searchBarInput.addEventListener('keyup', () => {
 searchBarSelect.addEventListener('change', () => {
     searchBarInput.value = '';
 });
+
+
+/*------------------------
+~~~~~~Arrow Section~~~~~~~ 
+------------------------*/
+let selectedArrowType = 'up', selectedArrowColumn = 'id';
+const arrowUpList = document.querySelectorAll(`[arrow="up"]`);
+const arrowDownList = document.querySelectorAll(`[arrow="down"]`);
+
+function removeSelectedArrow() {
+    if(selectedArrowType === 'up') 
+        document.querySelectorAll(`[col=${selectedArrowColumn}]`)[0].classList.remove('arrow-selected');
+    else
+        document.querySelectorAll(`[col=${selectedArrowColumn}]`)[1].classList.remove('arrow-selected');
+}
+
+for(let i = 0; i < arrowUpList.length; i++){
+    arrowUpList[i].addEventListener('click', arrowEventHandler);
+    arrowDownList[i].addEventListener('click', arrowEventHandler);
+}
+
+function arrowEventHandler() {
+    // Remove old section
+    removeSelectedArrow();
+    selectedArrowType = this.getAttribute('arrow');
+    selectedArrowColumn = this.getAttribute('col');
+
+    // Main Part Section
+    this.classList.add('arrow-selected')
+    capsule.sort(selectedArrowType, selectedArrowColumn);
+    drawTheTable();
+};

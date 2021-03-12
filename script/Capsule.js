@@ -12,14 +12,26 @@ class Capsule {
             const dataInner = await fetch(`https://appleseed-wa.herokuapp.com/api/users/${jsonOuter[i].id}`);
             const jsonInner = await dataInner.json();
 
-            const proxy = 'https://api.codetabs.com/v1/proxy/?quest';
-            const baseEndpoint = 'http://api.openweathermap.org/data/2.5/weather?q=${jsonInner.city}&appid=bc409db8acb7809321a860fe233a82e4';
+            // weather API
+            const city = `${jsonInner.city}`;
+            const country = 'israel';
+            let weather;
+
+
+            const weatherApi = 'http://api.openweathermap.org/data/2.5/weather?q='
+            const endweatherApi = '&APPID=bc409db8acb7809321a860fe233a82e4'
+            try {
+                const response = await fetch(`${weatherApi}${city},${country}${endweatherApi}`);
+                const data = await response.json();
+                weather = (parseInt(data.main.temp) - 273.15).toFixed(2);
+            }
+            catch(err){
+                weather = 'not found';
+            }
             
-            const weatherData = await fetch(`${proxy}=${baseEndpoint}`);
+            
 
-            console.log(weatherData);
-
-            const newStudent = new Student(jsonOuter[i].id, jsonOuter[i].firstName, jsonOuter[i].lastName, jsonOuter[i].capsule, jsonInner.age, jsonInner.city, jsonInner.gender, jsonInner.hobby);
+            const newStudent = new Student(jsonOuter[i].id, jsonOuter[i].firstName, jsonOuter[i].lastName, jsonOuter[i].capsule, jsonInner.age, jsonInner.city, jsonInner.gender, jsonInner.hobby, weather);
             this.students.push(newStudent);
         };
     }
@@ -59,11 +71,26 @@ class Capsule {
         this.students[index].switchEditMode();
     }
 
-    search(searchText, attribute){
+    search(searchText, attribute) {
         return this.students.filter(student => student[attribute]
                                                 .toString()
                                                 .toLowerCase()
                                                 .includes(searchText.toLowerCase()));
+    }
+
+    sort(arrow, attribute) {
+        if(arrow === 'up'){
+            if(attribute === 'id' || attribute === 'capsule' || attribute === 'age')
+                this.students.sort((a,b) => a[attribute] - b[attribute]);
+            else    
+                this.students.sort((a,b) => a[attribute].toLowerCase() >= b[attribute].toLowerCase() ? 1 : -1)
+        } 
+        else {
+            if(attribute === 'id' || attribute === 'capsule' || attribute === 'age')
+                this.students.sort((a,b) => b[attribute] - a[attribute]);
+            else    
+                this.students.sort((a,b) => a[attribute].toLowerCase() < b[attribute].toLowerCase() ? 1 : -1)
+        }
     }
 }
 

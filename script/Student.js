@@ -1,5 +1,5 @@
 class Student {
-    constructor(_id, _firstName, _lastName, _capsule, _age, _city, _gender, _hobby) {
+    constructor(_id, _firstName, _lastName, _capsule, _age, _city, _gender, _hobby, _weather) {
         this.id = parseInt(_id);
         this.firstName = _firstName;
         this.lastName = _lastName;
@@ -8,6 +8,7 @@ class Student {
         this.city = _city;
         this.gender = _gender;
         this.hobby = _hobby;
+        this.weather = _weather;
         this.atEditMode = false;
     }
 
@@ -19,6 +20,7 @@ class Student {
     getCity() { return this.city; }
     getGender() { return this.gender; }
     getHobby() { return this.hobby; }
+    getWeather() { return this.weather; }
     getAtEditMode() { return this.atEditMode; }
 
     setFirstName(_firstName) { this.firstName = _firstName; }
