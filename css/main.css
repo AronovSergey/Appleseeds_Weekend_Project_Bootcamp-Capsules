@@ -237,11 +237,11 @@ Reset Button
 .resetBtn {
     background-color: #6c7ae0 !important;
     color: white;
-    font-size: 16px;
+    font-size: 0;
     position: absolute;
     width: 120px;
-    height: 40px;
-    top: calc(15% - 40px);
+    height: 10px;
+    top: calc(15% - 10px);
     right: calc(5% + 15px);
     background: none;
     outline: none;
@@ -250,4 +250,11 @@ Reset Button
     cursor: pointer;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.resetBtn:hover {
+    font-size: 16px;
+    height: 40px;
+    top: calc(15% - 40px);
 }
