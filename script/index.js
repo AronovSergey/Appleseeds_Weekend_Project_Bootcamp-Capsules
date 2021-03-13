@@ -10,6 +10,7 @@ async function drawTheTable(data = null) {
         await capsule.create();
 
     let students;
+    
     if(data){
         students = data;
     }
@@ -27,6 +28,7 @@ async function drawTheTable(data = null) {
     }
 
     addEventListenerToAllButtons();
+    updateCapsuleLocalStorge(capsule);
 }
 
 function studentToTableRowString(student) {

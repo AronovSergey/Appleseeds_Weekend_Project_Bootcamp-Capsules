@@ -4,36 +4,47 @@ class Capsule {
     }
 
     async create() {
-        const dataOuter = await fetch('https://appleseed-wa.herokuapp.com/api/users/');
-        const jsonOuter = await dataOuter.json();
+        // Local storge is filled
+        if(localStorage.getItem('myCapsule')){
+            const data = getCapsuleLocalStorge();
+            data.forEach(student => {
+                const { id, firstName, lastName, capsule, age, city, gender, hobby, weather } = student;
+                this.students.push(new Student(id, firstName, lastName, capsule, age, city, gender, hobby, weather));
+            });
+        }
+        // Local storge is empty
+        else {
+            const dataOuter = await fetch('https://appleseed-wa.herokuapp.com/api/users/');
+            const jsonOuter = await dataOuter.json();
 
 
-        for(let i = 0; i < jsonOuter.length; i++){
-            const dataInner = await fetch(`https://appleseed-wa.herokuapp.com/api/users/${jsonOuter[i].id}`);
-            const jsonInner = await dataInner.json();
+            for(let i = 0; i < jsonOuter.length; i++){
+                const dataInner = await fetch(`https://appleseed-wa.herokuapp.com/api/users/${jsonOuter[i].id}`);
+                const jsonInner = await dataInner.json();
 
-            // weather API
-            const city = `${jsonInner.city}`;
-            const country = 'israel';
-            let weather;
+                // weather API
+                const city = `${jsonInner.city}`;
+                const country = 'israel';
+                let weather;
 
 
-            const weatherApi = 'http://api.openweathermap.org/data/2.5/weather?q='
-            const endweatherApi = '&APPID=bc409db8acb7809321a860fe233a82e4'
-            try {
-                const response = await fetch(`${weatherApi}${city},${country}${endweatherApi}`);
-                const data = await response.json();
-                weather = (parseInt(data.main.temp) - 273.15).toFixed(2);
-            }
-            catch(err){
-                weather = 'not found';
-            }
-            
-            
-
-            const newStudent = new Student(jsonOuter[i].id, jsonOuter[i].firstName, jsonOuter[i].lastName, jsonOuter[i].capsule, jsonInner.age, jsonInner.city, jsonInner.gender, jsonInner.hobby, weather);
-            this.students.push(newStudent);
-        };
+                const weatherApi = 'http://api.openweathermap.org/data/2.5/weather?q='
+                const endweatherApi = '&APPID=bc409db8acb7809321a860fe233a82e4'
+                try {
+                    const response = await fetch(`${weatherApi}${city},${country}${endweatherApi}`);
+                    const data = await response.json();
+                    weather = (parseInt(data.main.temp) - 273.15).toFixed(2);
+                }
+                catch(err){
+                    weather = 'not found';
+                }
+                
+                
+                // creating students one by one 
+                const newStudent = new Student(jsonOuter[i].id, jsonOuter[i].firstName, jsonOuter[i].lastName, jsonOuter[i].capsule, jsonInner.age, jsonInner.city, jsonInner.gender, jsonInner.hobby, weather);
+                this.students.push(newStudent);
+            };
+        }
     }
 
     findIndex(id) {
@@ -91,6 +102,25 @@ class Capsule {
             else    
                 this.students.sort((a,b) => a[attribute].toLowerCase() < b[attribute].toLowerCase() ? 1 : -1)
         }
+    }
+
+    getAllData() { 
+        const result = [];
+        for(let i = 0; i < this.students.length; i++){
+            const student = this.students[i];
+            result.push({
+                id: student.getId(),
+                firstName: student.getFirstName(),
+                lastName: student.getLastName(),
+                capsule: student.getCapsule(),
+                age: student.getAge(),
+                city: student.getCity(),
+                gender: student.getGender(),
+                hobby: student.getHobby(),
+                weather: student.getWeather(),
+            })
+        }
+        return result;
     }
 }
 

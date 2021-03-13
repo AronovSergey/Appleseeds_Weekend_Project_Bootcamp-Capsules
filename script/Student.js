@@ -8,7 +8,7 @@ class Student {
         this.city = _city;
         this.gender = _gender;
         this.hobby = _hobby;
-        this.weather = _weather;
+        this.weather = (parseInt(_weather)).toFixed(2);
         this.atEditMode = false;
     }
 
