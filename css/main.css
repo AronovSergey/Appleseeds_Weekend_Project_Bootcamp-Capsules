@@ -150,6 +150,7 @@ Searchbox Section
 
 .searchbox:hover > .searchbox__input {
     width: 450px;
+    max-width: 80%;
     padding: 0 6px;
 }
 
@@ -257,4 +258,50 @@ Reset Button
     font-size: 16px;
     height: 40px;
     top: calc(15% - 40px);
+}
+
+/* Tablet */
+@media only screen and (max-width: 880px) {
+    /* Table */
+    th, td {
+        padding: 9px 4px;
+    } 
+
+    .container-table {
+        width: 96%;
+        height: 1300px;
+        left: 2%;
+    }
+
+    .container-table table {
+        font-size: 0.5rem;
+        border-spacing: 0;
+    }
+
+    /* Reset Button */
+    .resetBtn {
+        width: 80px;
+    }
+
+    .resetBtn {
+        right: calc(2% + 15px);
+    }
+
+    .resetBtn:hover {
+        font-size: 8px;
+        height: 20px;
+        top: calc(15% - 20px);
+    }
+
+    /* Table Buttons */
+    .button-column span {
+        padding: 3px;
+    }
+
+    /* Searchbox Section */
+
+    .searchbox:hover > .searchbox__input {
+        width: 120px;
+        padding: 0 6px;
+    }
 }
