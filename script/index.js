@@ -186,3 +186,14 @@ function arrowEventHandler() {
     drawTheTable();
 };
 
+
+/*------------------------
+~~~~~~Reset Section~~~~~~~ 
+------------------------*/
+const resetButton = document.querySelector('.resetBtn');
+
+resetButton.addEventListener('click', () => {
+    removeCapsuleLocalStorge();
+    capsule.deleteAll();
+    drawTheTable();
+});

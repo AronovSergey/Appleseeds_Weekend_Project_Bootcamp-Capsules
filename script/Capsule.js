@@ -62,6 +62,10 @@ class Capsule {
         return false;
     }
 
+    deleteAll() {
+        this.students = [];
+    }
+
     getStudent(id) {
         const index = this.findIndex(parseInt(id));
         if(index > -1){

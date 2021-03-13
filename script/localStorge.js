@@ -8,5 +8,8 @@ function getCapsuleLocalStorge() {
     const data = JSON.parse(json);
 
     return(data);
+}
 
+function removeCapsuleLocalStorge() {
+    localStorage.clear('myCapsule');
 }

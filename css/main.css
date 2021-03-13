@@ -229,3 +229,25 @@ Arrow UP and And Arrow Down Section
 .arrow-selected {
     color: #fff;
 }
+
+
+/*~~~~~~~~~~
+Reset Button
+~~~~~~~~~~*/
+.resetBtn {
+    background-color: #6c7ae0 !important;
+    color: white;
+    font-size: 16px;
+    position: absolute;
+    width: 120px;
+    height: 40px;
+    top: calc(15% - 40px);
+    right: calc(5% + 15px);
+    background: none;
+    outline: none;
+    border: none;
+    border-bottom: 1px solid white;
+    cursor: pointer;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
