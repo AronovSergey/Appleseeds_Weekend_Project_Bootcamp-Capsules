@@ -30,8 +30,9 @@ class Capsule {
 
                 const weatherApi = 'http://api.openweathermap.org/data/2.5/weather?q='
                 const endweatherApi = '&APPID=bc409db8acb7809321a860fe233a82e4'
+                const proxy = 'https://api.codetabs.com/v1/proxy/?quest';
                 try {
-                    const response = await fetch(`${weatherApi}${city},${country}${endweatherApi}`);
+                    const response = await fetch(`${proxy}=${weatherApi}${city},${country}${endweatherApi}`);
                     const data = await response.json();
                     weather = (parseInt(data.main.temp) - 273.15).toFixed(2);
                 }
