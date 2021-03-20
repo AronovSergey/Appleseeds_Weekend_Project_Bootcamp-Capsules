@@ -2,7 +2,7 @@
 ## Instructions
 This project will create a table of data we get from the API calls
 
-## Table Features vs Functionality 
+## Table Features and Functionality 
 * The user has the ability to edit table.
 * The user has the ability remove a row.
 * Local Storage: data will be persistant upon refresh and browser tab closure.
